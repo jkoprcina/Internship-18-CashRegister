@@ -1,0 +1,29 @@
+.main {
+  margin: auto;
+  width: 550px;
+  text-align: center;
+  margin-top: 100px;
+  border: 2px solid lightgray;
+  background-color: lightgray;
+  color: black;
+  border-radius: 6px;
+  padding: 80px 40px;
+}
+
+.input {
+  padding: 5px;
+  margin: 5px;
+}
+
+.main__button {
+  margin: 20px 5px;
+  border-radius: 8px;
+  font-size: 25px;
+  width: 400px;
+  font-weight: 700;
+  padding: 10px;
+}
+
+p {
+  font-size: 18px;
+}
