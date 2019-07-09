@@ -1,0 +1,30 @@
+p {
+    font-family: "Open Sans";
+}
+
+.main__form {
+    margin: auto;
+    text-align: center;
+    border-radius: 6px;
+    padding: 40px 20px;
+}
+
+.main__form__input {
+    padding: 5px;
+    margin: 5px 5px 20px 5px;
+    width: 200px;
+}
+
+.main__form__label{
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.main__button {
+    margin: 20px 5px;
+    border-radius: 8px;
+    font-size: 25px;
+    padding: 10px 10px;
+    font-weight: 700;
+}
+
