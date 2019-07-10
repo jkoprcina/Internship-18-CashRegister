@@ -1,0 +1,30 @@
+.buying-div {
+    width: 1000px;
+    background-color: lightgray;
+    border-radius: 6px;
+    height: 500px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.buying-div__all-items {
+    background-color: white;
+    width: 400px;
+    height: 400px;
+    margin: 40px;
+}
+.buying-div__basket {
+    background-color: white;
+    width: 400px;
+    height: 400px;
+    text-align: center;
+}
+
+.button {
+    margin: 20px 5px;
+    border-radius: 8px;
+    font-size: 25px;
+    width: 200px;
+    font-weight: 700;
+    padding: 10px;
+  }
