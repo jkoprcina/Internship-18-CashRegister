@@ -36,18 +36,16 @@ namespace StoreCashRegister.Domain.Implementations
 
         public bool EditProduct(int id, double price, int tax)
         {
-            var editedProduct = _context.Products.Find(id);
-
-            if (editedProduct.Tax < 0 || editedProduct.Price < 0)
+            if (tax < 0 || price < 0)
                 return false;
 
-            var productToEdit = _context.Products.Find(editedProduct.Id);
+            var productToEdit = _context.Products.Find(id);
             if (productToEdit == null)
                 return false;
 
-            productToEdit.Price = editedProduct.Price;
-            productToEdit.Tax = editedProduct.Tax;
-            productToEdit.Barcode = editedProduct.Barcode;
+            productToEdit.Price = price;
+            productToEdit.Tax = tax;
+            productToEdit.Barcode = productToEdit.Barcode;
 
             _context.SaveChanges();
             return true;

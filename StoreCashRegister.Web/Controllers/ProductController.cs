@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using StoreCashRegister.Data.Modules;
 using StoreCashRegister.Domain.Interfaces;
 
@@ -35,36 +36,36 @@ namespace StoreCashRegister.Web.Controllers
         }
 
         [HttpPost("edit")]
-        public IActionResult EditProduct(int id, double price, int tax)
+        public IActionResult EditProduct([FromBody]JObject data)
         {
-            var wasEditSuccessful = _productRepository.EditProduct(id, price, tax);
+            var wasEditSuccessful = _productRepository.EditProduct((int)data["id"], (double)data["price"], (int)data["tax"]);
             if (wasEditSuccessful)
                 return Ok();
             return Forbid();
         }
 
         [HttpPost("add-amount")]
-        public IActionResult AddProductAmount(int id, int amountToAdd)
+        public IActionResult AddProductAmount([FromBody]JObject data)
         {
-            var wasAddingSuccessful = _productRepository.AddProductAmount(id, amountToAdd);
+            var wasAddingSuccessful = _productRepository.AddProductAmount((int)data["id"], (int)data["amountToAdd"]);
             if (wasAddingSuccessful)
                 return Ok();
             return Forbid();
         }
 
         [HttpPost("remove-amount")]
-        public IActionResult RemoveProductAmount(int id, int amountToRemove)
+        public IActionResult RemoveProductAmount([FromBody]JObject data)
         {
-            var wasRemovingSuccessful = _productRepository.RemoveProductAmount(id, amountToRemove);
+            var wasRemovingSuccessful = _productRepository.RemoveProductAmount((int)data["id"], (int)data["amountToRemove"]);
             if (wasRemovingSuccessful)
                 return Ok();
             return Forbid();
         }
 
         [HttpGet("get-by-id")]
-        public IActionResult GetProductById(int id)
+        public IActionResult GetProductById([FromBody]JObject data)
         {
-            var product = _productRepository.GetProductById(id);
+            var product = _productRepository.GetProductById((int)data["identifier"]);
             if (product != null)
                 return Ok(product);
             return NotFound();

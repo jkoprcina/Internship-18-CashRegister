@@ -12,16 +12,17 @@ class EditProducts extends React.Component {
     productIsSelected: false
   };
 
-  getAndShowAllProducts() {
+  getAndShowAllProducts = () => {
     axios
       .get("api/products/all")
       .then(response => {
-        this.setState({ products: response, loading: false });
+        console.log(response.data);
+        this.setState({ products: response.data, loading: false });
       })
       .catch(() => {
         alert("Failed");
       });
-  }
+  };
 
   componentDidMount() {
     this.getAndShowAllProducts();
@@ -35,14 +36,13 @@ class EditProducts extends React.Component {
       alert("Wrong info");
       return;
     }
-    axios.get("api/products/get-by-id", id).then(result => {
-      this.setState({ selectedProduct: result });
-      axios
-        .post("api/products/edit", id, { price: price, tax: tax })
-        .then(() => {
-          this.getAndShowAllProducts();
-        });
-    });
+    console.log(id);
+    axios
+      .post("api/products/edit", { id: id, price: price, tax: tax })
+      .then(() => {
+        alert("Edited successfully!");
+        this.getAndShowAllProducts();
+      });
   };
 
   addAmount(id) {
@@ -51,11 +51,11 @@ class EditProducts extends React.Component {
       alert("The input must be a whole number");
       return;
     } else {
-      console.log(id);
-      console.log(amount);
-      axios.post("api/products/add-amount", id, amount).then(() => {
-        this.getAndShowAllProducts();
-      });
+      axios
+        .post("api/products/add-amount", { id: id, amountToAdd: amount })
+        .then(() => {
+          this.getAndShowAllProducts();
+        });
     }
   }
   editProductFormOpen(product) {
@@ -99,7 +99,10 @@ class EditProducts extends React.Component {
             type="number"
             placeholder="Enter the tax..."
           />
-          <button className="main__button" onClick={this.editProduct}>
+          <button
+            className="main__button"
+            onClick={() => this.editProduct(this.state.selectedProduct.id)}
+          >
             Edit Item
           </button>
         </div>
@@ -111,14 +114,14 @@ class EditProducts extends React.Component {
       <div className="main">
         <div className="main__display-products">
           <h1>All Available Products</h1>
-          {this.state.loading ? (
+          {this.state.loading || this.state.products == null ? (
             <p>Loading...</p>
           ) : (
-            this.state.products.data.map(product => (
+            this.state.products.map(product => (
               <div key={product.id}>
                 <p>
                   NAME: {product.name} AVAILABLE AMOUNT:
-                  {product.amountAvailable}
+                  {product.amountAvailable} PRICE: {product.price}
                 </p>
                 <button onClick={() => this.addAmount(product.id)}>
                   Add amount
