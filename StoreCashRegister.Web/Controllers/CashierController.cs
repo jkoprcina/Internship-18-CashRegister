@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using StoreCashRegister.Domain.Interfaces;
 
 namespace StoreCashRegister.Web.Controllers
@@ -18,10 +19,10 @@ namespace StoreCashRegister.Web.Controllers
         }
         private readonly ICashierRepository _cashierRepository;
 
-        [HttpGet("get-cashier-by-username")]
-        public IActionResult GetCashierByUsername(string username, string password)
+        [HttpGet("getd-by-username")]
+        public IActionResult GetCashierByUsername([FromBody]JObject data)
         {
-            var cashier = _cashierRepository.GetCashierByUsername(username, password);
+            var cashier = _cashierRepository.GetCashierByUsername(data["username"].ToString(), data["password"].ToString());
             if (cashier != null)
                 return Ok(cashier);
             return NotFound();

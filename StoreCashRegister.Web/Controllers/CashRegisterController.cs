@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using StoreCashRegister.Domain.Interfaces;
 
 namespace StoreCashRegister.Web.Controllers
 {
-    [Route("api/cashRegisters")]
+    [Route("api/cash-registers")]
     [ApiController]
     public class CashRegisterController : ControllerBase
     {
@@ -19,9 +20,9 @@ namespace StoreCashRegister.Web.Controllers
         private readonly ICashRegisterRepository _cashRegisterRepository;
 
         [HttpGet("get-by-id")]
-        public IActionResult GetCashRegisterById(int id)
+        public IActionResult GetCashRegisterById([FromBody]JObject data)
         {
-            var cashRegister = _cashRegisterRepository.GetCashRegisterById(id);
+            var cashRegister = _cashRegisterRepository.GetCashRegisterById((int)data["id"]);
             if (cashRegister != null)
                 return Ok(cashRegister);
             return NotFound();

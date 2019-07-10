@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import "../css/addNewProduct.css";
-//Works
 
 class AddNewProduct extends React.Component {
   handleAddButtonClick = () => {

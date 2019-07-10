@@ -16,7 +16,6 @@ class EditProducts extends React.Component {
     axios
       .get("api/products/all")
       .then(response => {
-        console.log(response.data);
         this.setState({ products: response.data, loading: false });
       })
       .catch(() => {
@@ -36,23 +35,20 @@ class EditProducts extends React.Component {
       alert("Wrong info");
       return;
     }
-    console.log(id);
-    axios
-      .post("api/products/edit", { id: id, price: price, tax: tax })
-      .then(() => {
-        alert("Edited successfully!");
-        this.getAndShowAllProducts();
-      });
+    axios.post("api/products/edit", { id, price, tax }).then(() => {
+      alert("Edited successfully!");
+      this.getAndShowAllProducts();
+    });
   };
 
   addAmount(id) {
-    var amount = prompt("Please enter the amount you wish to add");
+    let amount = prompt("Please enter the amount you wish to add");
     if (Number.isInteger(amount) || amount <= 0) {
       alert("The input must be a whole number");
       return;
     } else {
       axios
-        .post("api/products/add-amount", { id: id, amountToAdd: amount })
+        .post("api/products/add-amount", { id, amountToAdd: amount })
         .then(() => {
           this.getAndShowAllProducts();
         });

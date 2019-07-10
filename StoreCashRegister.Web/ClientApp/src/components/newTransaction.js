@@ -6,43 +6,69 @@ import "../css/newTransaction.css";
 class newTransaction extends React.Component {
   state = {
     products: [],
+    basket: [],
     loading: true,
     selectedProduct: null
-  }
-  componentDidMount() {
-    axios.get('/api/products/all').then(response => {
-      let allProducts = response.data;
-      this.setState({products: allProducts, loading: false})
-    })
   };
 
+  getAndShowAllProducts = () => {
+    axios
+      .get("api/products/all")
+      .then(response => {
+        this.setState({ products: response.data, loading: false });
+      })
+      .catch(() => {
+        alert("Failed");
+      });
+  };
+
+  componentDidMount() {
+    this.getAndShowAllProducts();
+  }
+
+  addToBasket = (id, amountAvailable) => {
+    let amount = prompt("Please enter the amount you wish to add");
+    console.log(amountAvailable);
+    if (Number.isInteger(amount) || amount <= 0) {
+      alert("The input must be a whole number");
+      return;
+    }
+    if (amount > amountAvailable) {
+      alert("There's not enough in stock");
+      return;
+    }
+  };
   render() {
     return (
+      <div>
         <div className="buying-div">
           <div className="buying-div__all-items">
-          <h1>All Available Products</h1>
-          {
-            this.state.loading ? (<p>Loading...</p>) :
-            (
-              this.state.products.map(product => {
-                <div 
-                  key={product.Id} 
-                  onClick={this.handleItemClicked(product.Id)}>
-                  {product.Name} {product.amount}
-                  <button onClick={() => this.addamount(product.id)}>Add amount</button>
-                  <button onClick={() => this.editProduct(product.id)}>Edit item</button>
+            <h1>All Available Products</h1>
+            {this.state.loading ? (
+              <p>Loading...</p>
+            ) : (
+              this.state.products.map(product => (
+                <div
+                  className="buying-div__all-items__single-item"
+                  key={product.id}
+                  onClick={() =>
+                    this.addToBasket(product.id, product.amountAvailable)
+                  }
+                >
+                  <p>
+                    Name: {product.name} Amount:{product.amountAvailable} Price:{" "}
+                    {product.price}
+                  </p>
                 </div>
-              })
-            )
-          }
-          <Link to={`/main`}>
-            <button className="button">Exit</button>
-          </Link>
+              ))
+            )}
           </div>
-          <div className="buying-div__basket">
-
-          </div>
+          <div className="buying-div__basket" />
         </div>
+        <Link to={`/main`}>
+          <button className="button">Exit</button>
+        </Link>
+      </div>
     );
   }
 }

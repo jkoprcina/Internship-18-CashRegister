@@ -1,67 +1,69 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
-import * as cashRegister from "../utils/cashRegister";
-import * as cashier from "../utils/cashier";
+import axios from "axios";
 import "../css/main.css";
 
-//Login doesn't work, probably backend problem
 class Main extends React.Component {
   state = {
     loggedIn: true
-  }
-  handleLogin = () =>  {
-    var cashRegisterId = ReactDOM.findDOMNode(this.refs.cashRegister).value;
+  };
+  handleLogin = () => {
+    var id = ReactDOM.findDOMNode(this.refs.cashRegister).value;
     var username = ReactDOM.findDOMNode(this.refs.username).value;
     var password = ReactDOM.findDOMNode(this.refs.password).value;
-    if(cashRegister === "" || username === "" || password === ""){
+    if (id === "" || username === "" || password === "") {
       alert("You need to fill all the inputs");
       return;
     }
-    cashRegister.getCashRegisterById(cashRegisterId).then(
-      (
-        cashier.getCashierByUsername({ username: username, password: password }).then(
-          (response => {
+    axios
+      .get("api/cash-registers/get-by-id", { id })
+      .then(() => {
+        axios
+          .get("api/cashiers/get-by-username", {
+            username: username,
+            password: password
+          })
+          .then(response => {
             alert("Welcome!");
-            localStorage.setItem(response.username, response.lastName)
-            this.setState({ loggedIn: true })
-          }),
-          ( alert("The username or password are incorrect")
-          )
-        )
-      ), 
-      ( 
-        alert("THe CashRegister does not exist")
-      )
-    )};
+            localStorage.setItem(response.username, response.lastName);
+            this.setState({ loggedIn: true });
+          })
+          .catch(() => {
+            alert("The username or password are incorrect");
+          });
+      })
+      .catch(() => {
+        alert("THe CashRegister does not exist");
+      });
+  };
 
   handleLogOut = () => {
-    this.setState({ loggedIn: false});
+    this.setState({ loggedIn: false });
     localStorage.clear();
-  }
+  };
 
   render() {
-    return (
-      this.state.loggedIn ? 
-      (
-        <div className="main">
-          <Link to={`/newTransaction`}>
+    return this.state.loggedIn ? (
+      <div className="main">
+        <Link to={`/newTransaction`}>
           <button className="main__button">New Transaction</button>
-          </Link>
-          <Link to={`/addNewProduct`}>
-            <button className="main__button">Add New Item</button>
-          </Link>
-          <Link to={`/editProducts`}>
-            <button className="main__button">Edit items/Add amount</button>
-          </Link>
-          <Link to={`/viewTransactions`}>
-            <button className="main__button">View All Transactions</button>
-          </Link>
-            <button className="main__button" onClick={this.handleLogOut}>Log Out</button>
-        </div>
-      ) :
-      (
-        <div className="main">
+        </Link>
+        <Link to={`/addNewProduct`}>
+          <button className="main__button">Add New Item</button>
+        </Link>
+        <Link to={`/editProducts`}>
+          <button className="main__button">Edit items/Add amount</button>
+        </Link>
+        <Link to={`/viewTransactions`}>
+          <button className="main__button">View All Transactions</button>
+        </Link>
+        <button className="main__button" onClick={this.handleLogOut}>
+          Log Out
+        </button>
+      </div>
+    ) : (
+      <div className="main">
         <p>Cash-Register ID:</p>
         <input
           ref="cashRegister"
@@ -86,10 +88,12 @@ class Main extends React.Component {
           className="input"
         />
         <br />
-        <button className="main__button" onClick={this.handleLogin}>Login</button>
+        <button className="main__button" onClick={this.handleLogin}>
+          Login
+        </button>
       </div>
-      )
-    )}
+    );
+  }
 }
 
 export default Main;

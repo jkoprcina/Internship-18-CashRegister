@@ -1,30 +1,38 @@
 .buying-div {
-    width: 1000px;
-    background-color: lightgray;
-    border-radius: 6px;
-    height: 500px;
-    margin: auto;
-    margin-top: 50px;
+  width: 1000px;
+  background-color: lightgray;
+  border-radius: 6px;
+  height: 500px;
+  margin: auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
 }
 
 .buying-div__all-items {
-    background-color: white;
-    width: 400px;
-    height: 400px;
-    margin: 40px;
+  background-color: white;
+  width: 400px;
+  margin: 50px;
+  text-align: center;
 }
 .buying-div__basket {
-    background-color: white;
-    width: 400px;
-    height: 400px;
-    text-align: center;
+  background-color: white;
+  width: 400px;
+  margin: 50px;
+  text-align: center;
 }
-
+.buying-div__all-items__single-item {
+  width: 80%;
+  border-radius: 5px;
+  margin: auto;
+  background-color: lightgray;
+  cursor: pointer;
+}
 .button {
-    margin: 20px 5px;
-    border-radius: 8px;
-    font-size: 25px;
-    width: 200px;
-    font-weight: 700;
-    padding: 10px;
-  }
+  margin: 20px 5px;
+  border-radius: 8px;
+  font-size: 25px;
+  width: 200px;
+  font-weight: 700;
+  padding: 10px;
+}
