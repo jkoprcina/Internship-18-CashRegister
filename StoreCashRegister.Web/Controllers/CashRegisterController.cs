@@ -20,9 +20,9 @@ namespace StoreCashRegister.Web.Controllers
         private readonly ICashRegisterRepository _cashRegisterRepository;
 
         [HttpGet("get-by-id")]
-        public IActionResult GetCashRegisterById([FromBody]JObject data)
+        public IActionResult GetCashRegisterById(int id)
         {
-            var cashRegister = _cashRegisterRepository.GetCashRegisterById((int)data["id"]);
+            var cashRegister = _cashRegisterRepository.GetCashRegisterById(id);
             if (cashRegister != null)
                 return Ok(cashRegister);
             return NotFound();

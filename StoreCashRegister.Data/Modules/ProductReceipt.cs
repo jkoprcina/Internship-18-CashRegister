@@ -11,6 +11,7 @@ namespace StoreCashRegister.Data.Modules
         public int ReceiptId { get; set; }
         public Receipt Receipt { get; set; }
 
+        public string Name { get; set; }
         public int Amount { get; set; }
         public double PriceAtTheTime { get; set; }
     }

@@ -15,7 +15,7 @@
   margin: 50px;
   text-align: center;
 }
-.buying-div__basket {
+.buying-div__receipt {
   background-color: white;
   width: 400px;
   margin: 50px;
@@ -35,4 +35,8 @@
   width: 200px;
   font-weight: 700;
   padding: 10px;
+}
+
+p {
+  margin: 8px;
 }

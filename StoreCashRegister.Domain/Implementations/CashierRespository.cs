@@ -3,6 +3,7 @@ using StoreCashRegister.Data.Modules;
 using StoreCashRegister.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StoreCashRegister.Domain.Implementations
@@ -17,9 +18,11 @@ namespace StoreCashRegister.Domain.Implementations
 
         public Cashier GetCashierByUsername(string username, string password)
         {
-            var cashier = _context.Cashiers.Find(username);
+            var cashier = _context.Cashiers.FirstOrDefault(cas => cas.Username == username);
 
-            if (cashier.Password == password)
+            if (cashier == null)
+                return null;
+            if (cashier.Password == password && cashier.Username == username)
                 return cashier;
             return null;
         }

@@ -8,25 +8,38 @@ class Main extends React.Component {
   state = {
     loggedIn: true
   };
+
+  componentDidMount() {
+    if (localStorage.getItem("cashRegisterId") === undefined) {
+      this.setState({ loggedIn: false });
+    }
+  }
   handleLogin = () => {
-    var id = ReactDOM.findDOMNode(this.refs.cashRegister).value;
-    var username = ReactDOM.findDOMNode(this.refs.username).value;
-    var password = ReactDOM.findDOMNode(this.refs.password).value;
+    let id = ReactDOM.findDOMNode(this.refs.cashRegister).value;
+    let username = ReactDOM.findDOMNode(this.refs.username).value;
+    let password = ReactDOM.findDOMNode(this.refs.password).value;
     if (id === "" || username === "" || password === "") {
       alert("You need to fill all the inputs");
       return;
     }
     axios
-      .get("api/cash-registers/get-by-id", { id })
-      .then(() => {
+      .get("api/cash-registers/get-by-id", { params: { id: id } })
+      .then(cashRegisterResponse => {
         axios
           .get("api/cashiers/get-by-username", {
-            username: username,
-            password: password
+            params: {
+              username: username,
+              password: password
+            }
           })
-          .then(response => {
+          .then(cashierResponse => {
             alert("Welcome!");
-            localStorage.setItem(response.username, response.lastName);
+            localStorage.setItem(
+              "cashRegisterId",
+              cashRegisterResponse.data.id
+            );
+            localStorage.setItem("firstName", cashierResponse.data.firstName);
+            localStorage.setItem("lastName", cashierResponse.data.lastName);
             this.setState({ loggedIn: true });
           })
           .catch(() => {
@@ -34,7 +47,7 @@ class Main extends React.Component {
           });
       })
       .catch(() => {
-        alert("THe CashRegister does not exist");
+        alert("The CashRegister does not exist");
       });
   };
 
