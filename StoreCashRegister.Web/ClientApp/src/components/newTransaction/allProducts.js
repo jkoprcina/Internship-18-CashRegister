@@ -34,9 +34,6 @@ class AllProducts extends React.Component {
       alert("There's not enough in stock");
       return;
     }
-    console.log({
-      product
-    });
     axios
       .post("api/products/remove-amount", {
         id: product.id,
@@ -51,7 +48,7 @@ class AllProducts extends React.Component {
           amount: amount,
           priceAtTheTime: product.basicPrice + product.basicPrice * product.tax
         };
-        this.props.addToBasket(productReceipt);
+        this.props.addToReceipt(productReceipt);
       });
   };
   render() {
@@ -65,7 +62,7 @@ class AllProducts extends React.Component {
             <SingleProductsItem
               key={product.id}
               product={product}
-              addToBasket={this.handleRemoveAmount}
+              addToReceipt={this.handleRemoveAmount}
             />
           ))
         )}

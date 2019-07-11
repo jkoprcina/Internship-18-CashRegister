@@ -2,6 +2,7 @@ import React from "react";
 import "../../css/newTransaction.css";
 
 const SingleReceiptItem = props => {
+  console.log(this.state.productReceipt);
   return (
     <div
       className="buying-div__receipt__single-item"

@@ -1,27 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import AllProducts from "./allProducts";
 import Receipt from "./receipt";
 import "../../css/newTransaction.css";
 
 class newTransaction extends React.Component {
   state = {
-    basket: [],
-    selectedProduct: null
+    receipt: []
   };
 
-  handleAddToBasket = product => {
-    this.setState({ basket: [...this.state.basket, product] });
-    console.log(this.state.basket);
+  handleAddToReceipt = productReceipt => {
+    this.setState({ receipt: [...this.state.receipt, productReceipt] });
   };
 
   render() {
     return (
       <div>
         <div className="buying-div">
-          <AllProducts addToBasket={this.handleAddToBasket} />
-          <Receipt basket={this.state.basket} />
+          <AllProducts addToReceipt={this.handleAddToReceipt} />
+          <Receipt receipt={this.state.receipt} />
         </div>
         <Link to={`/main`}>
           <button className="button">Exit</button>

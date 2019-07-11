@@ -4,14 +4,13 @@ import "../../css/newTransaction.css";
 
 class Receipt extends React.Component {
   state = {
-    basket: [],
-    loading: true,
+    receipt: [],
     cashRegister: "",
     cashier: { firstName: "", lastName: "" }
   };
 
   componentDidMount() {
-    this.setState({ basket: this.props.basket });
+    this.setState({ receipt: this.props.receipt });
     this.setState({
       cashRegister: localStorage.getItem("cashRegisterId"),
       cashier: {
@@ -28,12 +27,12 @@ class Receipt extends React.Component {
   render() {
     return (
       <div className="buying-div__receipt">
-        {console.log(this.state.basket)}
         <h1>Receipt</h1>
-        {this.state.basket === [] ? (
+        {console.log(this.state.receipt)}
+        {this.state.receipt === [] ? (
           <p />
         ) : (
-          this.state.basket.map(productReceipt => (
+          this.state.receipt.map(productReceipt => (
             <SingleReceiptItem
               key={productReceipt.id}
               productReceipt={productReceipt}

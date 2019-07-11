@@ -63,9 +63,9 @@ namespace StoreCashRegister.Web.Controllers
         }
 
         [HttpGet("get-by-id")]
-        public IActionResult GetProductById([FromBody]JObject data)
+        public IActionResult GetProductById(int id)
         {
-            var product = _productRepository.GetProductById((int)data["identifier"]);
+            var product = _productRepository.GetProductById(id);
             if (product != null)
                 return Ok(product);
             return NotFound();
