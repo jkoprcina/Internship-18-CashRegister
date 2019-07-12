@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
 import SingleProductsItem from "./singleProductsItem";
-import "./newTransaction.css";
 import { amountRemoveValidation } from "../../utils/validations";
+import "./newTransaction.css";
 
 class AllProducts extends React.Component {
   state = {

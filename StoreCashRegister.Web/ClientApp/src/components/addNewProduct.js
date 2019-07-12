@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
-import axios from "axios";
+import { addProduct } from "./utils";
 import * as validation from "../utils/validations";
 import * as TAX from "../utils/constants";
 import "./addNewProduct.css";
@@ -44,22 +44,9 @@ class AddNewProduct extends React.Component {
       alert("You filled out something wrong");
       return;
     }
-    axios
-      .post("/api/products/add", {
-        barcode,
-        name,
-        price,
-        amountAvailable,
-        tax
-      })
-      .catch(() => {
-        alert("Add unsucessful");
-        return;
-      })
-      .then(() => {
-        alert("Successfully added product");
-        this.emptyAllInputs();
-      });
+    addProduct(name, price, amountAvailable, tax, barcode).then(() => {
+      this.emptyAllInputs();
+    });
   };
 
   emptyAllInputs = () => {

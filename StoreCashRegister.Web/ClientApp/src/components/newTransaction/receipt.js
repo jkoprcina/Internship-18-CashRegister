@@ -1,8 +1,8 @@
 import React from "react";
 import SingleReceiptItem from "./singleReceiptItem";
-import "./newTransaction.css";
 import * as math from "../../utils/math";
 import { addReceipt } from "./utils";
+import "./newTransaction.css";
 
 class Receipt extends React.Component {
   state = {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
-import axios from "axios";
+import { getAllProducts, addAmount, editProduct } from "./utils";
 import * as validate from "../utils/validations";
 import * as TAX from "../utils/constants";
 
@@ -14,21 +14,16 @@ class EditProducts extends React.Component {
   };
 
   getAndShowAllProducts = () => {
-    axios
-      .get("api/products/all")
-      .then(response => {
-        this.setState({ products: response.data, loading: false });
-      })
-      .catch(() => {
-        alert("Failed");
-      });
+    getAllProducts().then(response => {
+      this.setState({ products: response, loading: false });
+    });
   };
 
   componentDidMount() {
     this.getAndShowAllProducts();
   }
 
-  editProduct = id => {
+  compEditProduct = id => {
     let price = ReactDOM.findDOMNode(this.refs.price).value;
     let barcode = ReactDOM.findDOMNode(this.refs.barcode).value;
     if (
@@ -52,21 +47,18 @@ class EditProducts extends React.Component {
       alert("Wrong info");
       return;
     }
-    axios.post("api/products/edit", { id, barcode, price, tax }).then(() => {
-      alert("Edited successfully!");
+    editProduct(id, barcode, price, tax).then(() => {
       this.getAndShowAllProducts();
     });
   };
 
-  addAmount(id) {
+  compAddAmount(id) {
     let amount = prompt("Please enter the amount you wish to add");
     amount = validate.amountAddValidation(amount);
     if (amount !== 0) {
-      axios
-        .post("api/products/add-amount", { id, amountToAdd: amount })
-        .then(() => {
-          this.getAndShowAllProducts();
-        });
+      addAmount(id, amount).then(() => {
+        this.getAndShowAllProducts();
+      });
     }
   }
   editProductFormOpen = product => {
@@ -124,7 +116,7 @@ class EditProducts extends React.Component {
           <br />
           <button
             className="main__button"
-            onClick={() => this.editProduct(this.state.selectedProduct.id)}
+            onClick={() => this.compEditProduct(this.state.selectedProduct.id)}
           >
             Edit Item
           </button>
@@ -146,7 +138,7 @@ class EditProducts extends React.Component {
                   NAME: {product.name} AVAILABLE AMOUNT:
                   {product.amountAvailable} PRICE: {product.price}
                 </p>
-                <button onClick={() => this.addAmount(product.id)}>
+                <button onClick={() => this.compAddAmount(product.id)}>
                   Add amount
                 </button>
                 <button onClick={() => this.editProductFormOpen(product)}>

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import axios from "axios";
 import "./navigation.css";
+import { getInfoAndSetLocalStorage } from "./utils";
 
 class Login extends React.Component {
   login = () => {
@@ -16,33 +16,13 @@ class Login extends React.Component {
       alert("You need to fill all the inputs");
       return;
     }
-    axios
-      .get("api/cash-registers/get-by-id", { params: { id: cashRegisterId } })
-      .then(cashRegisterResponse => {
-        axios
-          .get("api/cashiers/get-by-username", {
-            params: {
-              username: cashierUsername
-            }
-          })
-          .then(cashierResponse => {
-            localStorage.setItem(
-              "cashRegisterId",
-              cashRegisterResponse.data.id
-            );
-            localStorage.setItem("cashierId", cashierResponse.data.id);
-            localStorage.setItem("firstName", cashierResponse.data.firstName);
-            localStorage.setItem("lastName", cashierResponse.data.lastName);
-            alert("Welcome!");
-            this.props.handleLogin();
-          })
-          .catch(() => {
-            alert("The username or password are incorrect");
-          });
-      })
-      .catch(() => {
-        alert("The CashRegister does not exist");
-      });
+    getInfoAndSetLocalStorage(
+      cashRegisterId,
+      cashierUsername,
+      cashierPassword
+    ).then(() => {
+      this.props.handleLogin();
+    });
   };
 
   render() {
