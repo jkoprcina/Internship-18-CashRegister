@@ -14,15 +14,9 @@ export const isAnyItemInArrayEmpty = array => {
   return false;
 };
 
-export const barcodeValidation = barcode => {
+export const isBarcodeBad = barcode => {
   if (barcode.length !== 13) {
     return true;
-  }
-  for (let i; i < barcode.length; i++) {
-    if (typeof barcode[i] === "string") {
-      console.log(typeof barcode[i]);
-      return true;
-    }
   }
   return false;
 };

@@ -1,17 +1,17 @@
 import React from "react";
 import SingleReceiptItem from "./singleReceiptItem";
 import * as math from "../../utils/math";
-import { addReceipt, addProductReceipts } from "./newTransactionUtils";
-import "./newTransaction.css";
+import { addReceipt, addProductReceipts } from "./newReceiptUtils";
+import "./newReceipt.css";
 
 class Receipt extends React.Component {
   state = {
     cashRegisterId: "",
     cashier: { firstName: "", lastName: "", id: "" },
-    fullPriceNoTax: "",
-    fullPriceWithTax: "",
-    fullLowerTaxPrice: "",
-    fullHigherTaxPrice: ""
+    fullPriceNoTax: 0,
+    fullPriceWithTax: 0,
+    fullLowerTaxPrice: 0,
+    fullHigherTaxPrice: 0
   };
 
   componentDidMount() {
@@ -25,6 +25,10 @@ class Receipt extends React.Component {
     });
   }
   componentWillReceiveProps() {
+    this.countPrices();
+  }
+  countPrices = () => {
+    console.log(this.props.productReceipts);
     let fullPriceNoTax = math.fullPriceNoTaxCalculator(
       this.props.productReceipts
     );
@@ -43,8 +47,7 @@ class Receipt extends React.Component {
       fullLowerTaxPrice,
       fullHigherTaxPrice
     });
-  }
-
+  };
   handleBuy = () => {
     addReceipt(
       this.state.fullPriceNoTax,

@@ -1,23 +1,20 @@
 import React from "react";
 import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import Index from "./components/navigation/index";
-import NewTransaction from "./components/newTransaction/newTransaction";
+import NewReceipt from "./components/newReceipt/newReceipt";
 import AddNewProduct from "./components/addNewProduct";
 import EditProducts from "./components/editProducts";
-import ViewTransactions from "./components/viewTransactions";
+import ViewReceipts from "./components/viewReceipts/viewReceipts";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/index" render={props => <Index />} />
-        <Route path="/newTransaction" render={props => <NewTransaction />} />
+        <Route path="/newReceipt" render={props => <NewReceipt />} />
         <Route path="/addNewProduct" render={props => <AddNewProduct />} />
         <Route path="/editProducts" render={props => <EditProducts />} />
-        <Route
-          path="/viewTransactions"
-          render={props => <ViewTransactions />}
-        />
+        <Route path="/viewReceipts" render={props => <ViewReceipts />} />
         <Redirect to="/index" />
       </Switch>
     </BrowserRouter>

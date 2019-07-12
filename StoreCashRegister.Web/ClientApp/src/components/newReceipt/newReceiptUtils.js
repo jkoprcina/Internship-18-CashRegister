@@ -23,12 +23,22 @@ export const addReceipt = (
 
 export const addProductReceipts = (productReceipts, receiptId) =>
   productReceipts.map(productReceipt =>
-    axios.post("api/product-receipts/add", {
-      productId: productReceipt.productId,
-      receiptId,
-      name: productReceipt.name,
-      amount: productReceipt.amount,
-      tax: productReceipt.tax,
-      price: productReceipt.price
-    })
+    axios
+      .post("api/product-receipts/add", {
+        productId: productReceipt.productId,
+        receiptId,
+        name: productReceipt.name,
+        amount: productReceipt.amount,
+        tax: productReceipt.tax,
+        price: productReceipt.price
+      })
+      .catch(() => {
+        alert("Something went wrong with productReceipts");
+      })
   );
+
+export const removeAmount = (product, amount) =>
+  axios.post("api/products/remove-amount", {
+    id: product.id,
+    amountToRemove: amount
+  });

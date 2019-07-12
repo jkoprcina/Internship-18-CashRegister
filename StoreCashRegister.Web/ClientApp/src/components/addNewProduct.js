@@ -39,7 +39,7 @@ class AddNewProduct extends React.Component {
       validation.isNegative(price) ||
       validation.isNegative(amountAvailable) ||
       validation.isNegative(tax) ||
-      validation.barcodeValidation(barcode)
+      validation.isBarcodeBad(barcode)
     ) {
       alert("You filled out something wrong");
       return;
@@ -76,7 +76,7 @@ class AddNewProduct extends React.Component {
             ref="barcode"
             step="1"
             className="main__form__input"
-            type="text"
+            type="number"
             placeholder="Enter 13 digit barcode..."
           />
           <br />

@@ -1,5 +1,5 @@
 import React from "react";
-import "./newTransaction.css";
+import "./newReceipt.css";
 
 const SingleReceiptItem = props => {
   return (

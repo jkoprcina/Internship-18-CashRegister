@@ -42,7 +42,7 @@ class EditProducts extends React.Component {
     if (
       validate.isNegative(price) ||
       validate.isNegative(tax) ||
-      validate.barcodeValidation(barcode)
+      validate.isBarcodeBad(barcode)
     ) {
       alert("Wrong info");
       return;
@@ -88,10 +88,9 @@ class EditProducts extends React.Component {
           <input
             ref="barcode"
             step="1"
-            defaultValue={this.state.selectedProduct.barcode}
             className="main__form__input"
             type="number"
-            placeholder="Enter product price..."
+            placeholder="Enter 13 digit barcode..."
           />
           <br />
           <br />

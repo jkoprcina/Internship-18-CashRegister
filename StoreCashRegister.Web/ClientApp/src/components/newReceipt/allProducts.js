@@ -2,7 +2,8 @@ import React from "react";
 import axios from "axios";
 import SingleProductsItem from "./singleProductsItem";
 import { amountRemoveValidation } from "../../utils/validations";
-import "./newTransaction.css";
+import "./newReceipt.css";
+import { removeAmount } from "./newReceiptUtils";
 
 class AllProducts extends React.Component {
   state = {
@@ -32,14 +33,9 @@ class AllProducts extends React.Component {
 
   handleRemoveAmount = product => {
     let amount = this.askUserAmount(product);
-    axios
-      .post("api/products/remove-amount", {
-        id: product.id,
-        amountToRemove: amount
-      })
-      .then(() => {
+    if (amount !== 0) {
+      removeAmount(product, amount).then(() => {
         this.getAndShowAllProducts();
-        //Make new kinda ProductReceipt
         let productReceipt = {
           productId: product.id,
           name: product.name,
@@ -49,6 +45,7 @@ class AllProducts extends React.Component {
         };
         this.props.addToReceipt(productReceipt);
       });
+    }
   };
 
   render() {

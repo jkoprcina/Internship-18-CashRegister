@@ -5,8 +5,8 @@ import "./navigation.css";
 export const MainPage = props => {
   return (
     <div className="main">
-      <Link to={`/newTransaction`}>
-        <button className="main__button">New Transaction</button>
+      <Link to={`/newReceipt`}>
+        <button className="main__button">New Receipt</button>
       </Link>
       <Link to={`/addNewProduct`}>
         <button className="main__button">Add New Item</button>
@@ -14,8 +14,8 @@ export const MainPage = props => {
       <Link to={`/editProducts`}>
         <button className="main__button">Edit items/Add amount</button>
       </Link>
-      <Link to={`/viewTransactions`}>
-        <button className="main__button">View All Transactions</button>
+      <Link to={`/viewReceipts`}>
+        <button className="main__button">View All Receipts</button>
       </Link>
       <button className="main__button" onClick={() => props.handleLogout()}>
         Log Out

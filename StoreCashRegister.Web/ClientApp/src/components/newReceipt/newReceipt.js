@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import AllProducts from "./allProducts";
 import Receipt from "./receipt";
-import "./newTransaction.css";
+import "./newReceipt.css";
 
-class newTransaction extends React.Component {
+class newReceipt extends React.Component {
   state = {
     productReceipts: []
   };
@@ -41,4 +41,4 @@ class newTransaction extends React.Component {
   }
 }
 
-export default newTransaction;
+export default newReceipt;

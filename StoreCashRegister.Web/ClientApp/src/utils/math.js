@@ -2,9 +2,11 @@ import * as TAX from "./constants";
 
 export const fullPriceNoTaxCalculator = products => {
   var price = 0;
+  console.log(products);
   products.map(product => {
     price += product.price * product.amount;
   });
+  console.log(price);
   return price.toFixed(2);
 };
 

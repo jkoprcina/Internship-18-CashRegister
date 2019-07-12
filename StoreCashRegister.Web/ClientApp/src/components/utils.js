@@ -1,15 +1,5 @@
 import axios from "axios";
 
-export const getAllReceipts = () =>
-  axios
-    .get("api/receipts/all")
-    .then(response => {
-      return response.data;
-    })
-    .catch(() => {
-      alert("Failed");
-    });
-
 export const getAllProducts = () =>
   axios
     .get("api/products/all")
@@ -29,13 +19,13 @@ export const addProduct = (name, price, amountAvailable, tax, barcode) =>
       amountAvailable,
       tax
     })
-    .catch(() => {
-      alert("Add unsucessful");
-      return;
-    })
     .then(() => {
       alert("Successfully added product");
+    })
+    .catch(() => {
+      alert("Add unsucessful");
     });
+
 export const addAmount = (id, amount) =>
   axios.post("api/products/add-amount", { id, amountToAdd: amount });
 
