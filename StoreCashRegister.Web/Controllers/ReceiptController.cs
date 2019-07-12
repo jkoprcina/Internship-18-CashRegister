@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using StoreCashRegister.Data.Modules;
 using StoreCashRegister.Domain.Interfaces;
 
@@ -27,22 +28,17 @@ namespace StoreCashRegister.Web.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddReceipt(Receipt receiptToAdd, double fullPriceNoTax,
-                double fullPriceWithTax,
-                double fullLowerTaxPrice,
-                double fullHigherTaxPrice,
-                int cashRegisterId,
-                int cashierId )
+        public IActionResult AddReceipt([FromBody]JObject data)
         {
-
-            receiptToAdd.PriceWithoutTax = fullPriceNoTax;
+            var receiptToAdd = new Receipt();
+            receiptToAdd.PriceWithoutTax = (double)data["fullPriceNoTax"];
             receiptToAdd.SerialNumber = Guid.NewGuid();
             receiptToAdd.SoldOnDate = DateTime.Now;
-            receiptToAdd.FullPrice = fullPriceWithTax;
-            receiptToAdd.ExciseTax = fullLowerTaxPrice;
-            receiptToAdd.DirectTax = fullHigherTaxPrice;
+            receiptToAdd.FullPrice = (double)data["fullPriceWithTax"];
+            receiptToAdd.ExciseTax = (double)data["fullLowerTaxPrice"];
+            receiptToAdd.DirectTax = (double)data["fullHigherTaxPrice"];
 
-            var wasAddSuccessful = _receiptRepository.AddReceipt(receiptToAdd, cashRegisterId, cashierId);
+            var wasAddSuccessful = _receiptRepository.AddReceipt(receiptToAdd, (int)data["cashRegisterId"], (int)data["cashierId"]);
             if (wasAddSuccessful)
                 return Ok();
             return Forbid();

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using StoreCashRegister.Data.Modules;
 using StoreCashRegister.Domain.Interfaces;
 
 namespace StoreCashRegister.Web.Controllers

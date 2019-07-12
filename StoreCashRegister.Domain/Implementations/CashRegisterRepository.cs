@@ -19,5 +19,6 @@ namespace StoreCashRegister.Domain.Implementations
         {
             return _context.CashRegisters.Find(id);
         }
+
     }
 }

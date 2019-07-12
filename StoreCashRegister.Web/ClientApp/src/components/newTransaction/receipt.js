@@ -1,12 +1,12 @@
 import React from "react";
 import SingleReceiptItem from "./singleReceiptItem";
 import * as math from "../../utils/math";
-import { addReceipt } from "./utils";
+import { addReceipt, addProductReceipts } from "./newTransactionUtils";
 import "./newTransaction.css";
 
 class Receipt extends React.Component {
   state = {
-    cashRegister: "",
+    cashRegisterId: "",
     cashier: { firstName: "", lastName: "", id: "" },
     fullPriceNoTax: "",
     fullPriceWithTax: "",
@@ -16,11 +16,11 @@ class Receipt extends React.Component {
 
   componentDidMount() {
     this.setState({
-      cashRegister: localStorage.getItem("cashRegisterId"),
+      cashRegisterId: localStorage.getItem("cashRegisterId"),
       cashier: {
         firstName: localStorage.getItem("firstName"),
         lastName: localStorage.getItem("lastName"),
-        username: localStorage.getItem("id")
+        id: localStorage.getItem("cashierId")
       }
     });
   }
@@ -44,22 +44,27 @@ class Receipt extends React.Component {
       fullHigherTaxPrice
     });
   }
+
   handleBuy = () => {
     addReceipt(
       this.state.fullPriceNoTax,
       this.state.fullPriceWithTax,
       this.state.fullLowerTaxPrice,
       this.state.fullHigherTaxPrice,
-      this.state.cashRegister,
-      this.state.cashier.username
-    );
+      this.state.cashRegisterId,
+      this.state.cashier.id
+    ).then(response => {
+      if (response !== undefined) {
+        addProductReceipts(this.props.productReceipts, response.id);
+      }
+    });
   };
 
   render() {
     return (
       <div className="buying-div__receipt">
         <h1>Receipt</h1>
-        <p>Cash Register Number:{this.state.cashRegister}</p>
+        <p>Cash Register Number:{this.state.cashRegisterId}</p>
         <p>Cashier Name:{this.state.cashier.firstName}</p>
         <p>
           Cashier Last Name:

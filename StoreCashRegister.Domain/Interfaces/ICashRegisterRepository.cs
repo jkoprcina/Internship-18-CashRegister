@@ -8,5 +8,6 @@ namespace StoreCashRegister.Domain.Interfaces
     public interface ICashRegisterRepository
     {
         CashRegister GetCashRegisterById(int id);
+
     }
 }
