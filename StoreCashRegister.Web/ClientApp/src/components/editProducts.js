@@ -88,6 +88,7 @@ class EditProducts extends React.Component {
           <input
             ref="barcode"
             step="1"
+            defaultValue={this.state.selectedProduct.barcode}
             className="main__form__input"
             type="number"
             placeholder="Enter 13 digit barcode..."
