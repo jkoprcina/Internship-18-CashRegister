@@ -38,7 +38,7 @@ namespace StoreCashRegister.Web.Controllers
         [HttpPost("edit")]
         public IActionResult EditProduct([FromBody]JObject data)
         {
-            var wasEditSuccessful = _productRepository.EditProduct((int)data["id"], (double)data["price"], (int)data["tax"]);
+            var wasEditSuccessful = _productRepository.EditProduct((int)data["id"], data["barcode"].ToString() ,(double)data["price"], (int)data["tax"]);
             if (wasEditSuccessful)
                 return Ok();
             return Forbid();

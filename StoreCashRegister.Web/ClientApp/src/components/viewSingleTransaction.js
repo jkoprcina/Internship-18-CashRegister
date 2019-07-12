@@ -1,6 +1,5 @@
 import React from "react";
-import "../css/viewTransactions.css";
-import ViewSingleTransactionsDetails from "./viewSingleTransactionDetails";
+import SingleReceiptItem from "./newTransaction/singleReceiptItem";
 
 class ViewSingleTransaction extends React.Component {
   state = {
@@ -17,22 +16,22 @@ class ViewSingleTransaction extends React.Component {
   render() {
     return this.state.isSelected ? (
       <div className="receipt">
-        {props.ProductReceipts.map(productReceipt => {
+        {this.props.receipt.ProductReceipts.map(productReceipt => {
           <SingleReceiptItem productReceipt={productReceipt} />;
         })}
         <span className="info-label">Price without tax: </span>
-        <span className="info">{props.priceWithoutTax}</span>
+        <span className="info">{this.props.receipt.priceWithoutTax}</span>
         <span className="info-label">Excise tax:</span>
-        <span className="info">{props.exciseTax}</span>
+        <span className="info">{this.props.receipt.exciseTax}</span>
         <span className="info-label">Direct tax: </span>
-        <span className="info">{props.directTax}</span>
+        <span className="info">{this.props.receipt.directTax}</span>
         <span className="info-label">Full price: </span>
-        <span className="info">{props.fullPrice}</span>
+        <span className="info">{this.props.receipt.fullPrice}</span>
         <button onClick={this.handleBack} />
       </div>
     ) : (
       <div>
-        {props.name} {props.fullPrice}
+        {this.props.receipt.name} {this.props.receipt.fullPrice}
         <button onClick={() => this.handleSelect()}>View details</button>
       </div>
     );

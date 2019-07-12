@@ -27,9 +27,22 @@ namespace StoreCashRegister.Web.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddReceipt(Receipt productToAdd)
+        public IActionResult AddReceipt(Receipt receiptToAdd, double fullPriceNoTax,
+                double fullPriceWithTax,
+                double fullLowerTaxPrice,
+                double fullHigherTaxPrice,
+                int cashRegisterId,
+                int cashierId )
         {
-            var wasAddSuccessful = _receiptRepository.AddReceipt(productToAdd);
+
+            receiptToAdd.PriceWithoutTax = fullPriceNoTax;
+            receiptToAdd.SerialNumber = Guid.NewGuid();
+            receiptToAdd.SoldOnDate = DateTime.Now;
+            receiptToAdd.FullPrice = fullPriceWithTax;
+            receiptToAdd.ExciseTax = fullLowerTaxPrice;
+            receiptToAdd.DirectTax = fullHigherTaxPrice;
+
+            var wasAddSuccessful = _receiptRepository.AddReceipt(receiptToAdd, cashRegisterId, cashierId);
             if (wasAddSuccessful)
                 return Ok();
             return Forbid();

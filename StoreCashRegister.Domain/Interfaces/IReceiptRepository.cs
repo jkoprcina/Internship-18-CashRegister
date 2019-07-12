@@ -9,7 +9,7 @@ namespace StoreCashRegister.Domain.Interfaces
     {
         List<Receipt> GetAllReceipts();
 
-        bool AddReceipt(Receipt receiptToAdd);
+        bool AddReceipt(Receipt receiptToAdd, int cashRegisterId, int cashierId);
 
         Receipt GetReceiptById(int id);
     }

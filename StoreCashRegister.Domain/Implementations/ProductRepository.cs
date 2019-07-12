@@ -23,10 +23,13 @@ namespace StoreCashRegister.Domain.Implementations
 
         public bool AddProduct(Product productToAdd)
         {
-            var doesProductExist = _context.Products.Any
+            var doesProductExistWithName = _context.Products.Any
                 (product => string.Equals(product.Name, productToAdd.Name, StringComparison.CurrentCultureIgnoreCase));
 
-            if (doesProductExist || productToAdd.AmountAvailable < 0 || productToAdd.Price < 0)
+            var doesProductExistWithBarcode = _context.Products.Any
+                (product => string.Equals(product.Barcode, productToAdd.Barcode, StringComparison.CurrentCultureIgnoreCase));
+
+            if (doesProductExistWithName || doesProductExistWithBarcode || productToAdd.AmountAvailable < 0 || productToAdd.Price < 0)
                 return false;
 
             _context.Products.Add(productToAdd);
@@ -34,18 +37,26 @@ namespace StoreCashRegister.Domain.Implementations
             return true;
         }
 
-        public bool EditProduct(int id, double price, int tax)
+        public bool EditProduct(int id, string barcode, double price, int tax)
         {
-            if (tax < 0 || price < 0)
+            var productToEdit = _context.Products.Find(id);
+
+            var doesProductExistWithBarcode = false;
+            if (!(productToEdit.Barcode == barcode))
+            {
+                doesProductExistWithBarcode = _context.Products.Any
+                (product => string.Equals(product.Barcode, barcode, StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            if (doesProductExistWithBarcode || price < 0 || tax < 0)
                 return false;
 
-            var productToEdit = _context.Products.Find(id);
             if (productToEdit == null)
                 return false;
 
             productToEdit.Price = price;
             productToEdit.Tax = tax;
-            productToEdit.Barcode = productToEdit.Barcode;
+            productToEdit.Barcode = barcode;
 
             _context.SaveChanges();
             return true;

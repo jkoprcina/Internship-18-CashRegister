@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import SingleProductsItem from "./singleProductsItem";
-import "../../css/newTransaction.css";
+import "./newTransaction.css";
+import { amountRemoveValidation } from "../../utils/validations";
 
 class AllProducts extends React.Component {
   state = {
@@ -24,16 +25,13 @@ class AllProducts extends React.Component {
     this.getAndShowAllProducts();
   }
 
-  handleRemoveAmount = product => {
+  askUserAmount = product => {
     let amount = prompt("Please enter the amount you wish to add");
-    if (Number.isInteger(amount) || amount <= 0) {
-      alert("The input must be a whole number");
-      return;
-    }
-    if (amount > product.amountAvailable) {
-      alert("There's not enough in stock");
-      return;
-    }
+    return amountRemoveValidation(amount, product);
+  };
+
+  handleRemoveAmount = product => {
+    let amount = this.askUserAmount(product);
     axios
       .post("api/products/remove-amount", {
         id: product.id,
@@ -45,12 +43,14 @@ class AllProducts extends React.Component {
         let productReceipt = {
           productId: product.id,
           name: product.name,
-          amount: amount,
-          priceAtTheTime: product.basicPrice + product.basicPrice * product.tax
+          amount: parseInt(amount, 10),
+          price: parseFloat(product.price),
+          tax: parseInt(product.tax, 10)
         };
         this.props.addToReceipt(productReceipt);
       });
   };
+
   render() {
     return (
       <div className="buying-div__all-items">

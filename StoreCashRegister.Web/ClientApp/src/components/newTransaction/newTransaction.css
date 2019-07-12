@@ -2,7 +2,6 @@
   width: 1000px;
   background-color: lightgray;
   border-radius: 6px;
-  height: 500px;
   margin: auto;
   margin-top: 50px;
   display: flex;
@@ -19,7 +18,7 @@
   background-color: white;
   width: 400px;
   margin: 50px;
-  text-align: center;
+  text-align: left;
 }
 .buying-div__all-items__single-item {
   width: 80%;

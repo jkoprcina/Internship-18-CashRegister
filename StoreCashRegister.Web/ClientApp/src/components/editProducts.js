@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import "../css/editProducts.css";
+import * as validate from "../utils/validations";
+import * as TAX from "../utils/constants";
 
 class EditProducts extends React.Component {
   state = {
@@ -28,14 +29,30 @@ class EditProducts extends React.Component {
   }
 
   editProduct = id => {
-    //Need to add checking if price is a double and amount an int
     let price = ReactDOM.findDOMNode(this.refs.price).value;
-    let tax = ReactDOM.findDOMNode(this.refs.tax).value;
-    if (price < 0 || tax < 0) {
+    let barcode = ReactDOM.findDOMNode(this.refs.barcode).value;
+    if (
+      ReactDOM.findDOMNode(this.refs.highTax).checked === false &&
+      ReactDOM.findDOMNode(this.refs.lowTax).checked === false
+    ) {
+      alert("You need to check one tax option");
+      return;
+    }
+    let tax = 0;
+    if (ReactDOM.findDOMNode(this.refs.highTax).checked) {
+      tax = TAX.HIGH_TAX;
+    } else {
+      tax = TAX.LOW_TAX;
+    }
+    if (
+      validate.isNegative(price) ||
+      validate.isNegative(tax) ||
+      validate.barcodeValidation(barcode)
+    ) {
       alert("Wrong info");
       return;
     }
-    axios.post("api/products/edit", { id, price, tax }).then(() => {
+    axios.post("api/products/edit", { id, barcode, price, tax }).then(() => {
       alert("Edited successfully!");
       this.getAndShowAllProducts();
     });
@@ -43,10 +60,8 @@ class EditProducts extends React.Component {
 
   addAmount(id) {
     let amount = prompt("Please enter the amount you wish to add");
-    if (Number.isInteger(amount) || amount <= 0) {
-      alert("The input must be a whole number");
-      return;
-    } else {
+    amount = validate.amountAddValidation(amount);
+    if (amount !== 0) {
       axios
         .post("api/products/add-amount", { id, amountToAdd: amount })
         .then(() => {
@@ -54,9 +69,9 @@ class EditProducts extends React.Component {
         });
     }
   }
-  editProductFormOpen(product) {
+  editProductFormOpen = product => {
     this.setState({ productIsSelected: true, selectedProduct: product });
-  }
+  };
 
   goBackToAllProducts = () => {
     this.setState({
@@ -76,25 +91,37 @@ class EditProducts extends React.Component {
           </h1>
           <br />
           <br />
+          <label className="main__form__label">Product Barcode: </label>
+          <br />
+          <input
+            ref="barcode"
+            step="1"
+            defaultValue={this.state.selectedProduct.barcode}
+            className="main__form__input"
+            type="number"
+            placeholder="Enter product price..."
+          />
+          <br />
+          <br />
           <label className="main__form__label">Product Price: </label>
           <br />
           <input
             ref="price"
+            min="0"
+            step="1"
             defaultValue={this.state.selectedProduct.price}
             className="main__form__input"
             type="number"
             placeholder="Enter product price..."
           />
           <br />
-          <label className="main__form__label">Product tax: </label>
+          <label className="main__form__label">Product Tax: </label>
           <br />
-          <input
-            ref="tax"
-            defaultValue={this.state.selectedProduct.tax}
-            className="main__form__input"
-            type="number"
-            placeholder="Enter the tax..."
-          />
+          <input type="radio" name="colors" ref="highTax" />
+          {TAX.HIGH_TAX}%
+          <input type="radio" name="colors" ref="lowTax" />
+          {TAX.LOW_TAX}%
+          <br />
           <button
             className="main__button"
             onClick={() => this.editProduct(this.state.selectedProduct.id)}

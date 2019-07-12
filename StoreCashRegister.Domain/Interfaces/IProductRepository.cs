@@ -11,7 +11,7 @@ namespace StoreCashRegister.Domain.Interfaces
 
         bool AddProduct(Product productToAdd);
 
-        bool EditProduct(int id, double price, int tax);
+        bool EditProduct(int id, string barcode, double price, int tax);
 
         bool AddProductAmount(int id, int amountToAdd);
 

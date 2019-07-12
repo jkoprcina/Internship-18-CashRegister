@@ -13,6 +13,7 @@ namespace StoreCashRegister.Data.Modules
 
         public string Name { get; set; }
         public int Amount { get; set; }
+        public int Tax { get; set; }
         public double PriceAtTheTime { get; set; }
     }
 }

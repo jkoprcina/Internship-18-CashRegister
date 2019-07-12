@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../css/viewTransactions.css";
 import axios from "axios";
 import ViewSingleTransaction from "./viewSingleTransaction";
 
@@ -14,7 +13,10 @@ class ViewTransactions extends React.Component {
 
   getAllReceiptsAndShowThem() {
     axios.get("api/receipts/all").then(response => {
-      this.setState({ receipts: response.date, loading: false });
+      this.setState({ receipts: response.date });
+      if (this.state.receipts !== undefined) {
+        this.setState({ loading: false });
+      }
     });
   }
 

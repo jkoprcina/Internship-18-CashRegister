@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/newTransaction.css";
+import "./newTransaction.css";
 
 const SingleProductsItem = props => {
   return (
