@@ -29,7 +29,7 @@ class ViewReceipts extends React.Component {
 
     setTimeout(() => {
       this.getReceipts();
-    }, 300);
+    }, 500);
   };
 
   handleBack = () => {

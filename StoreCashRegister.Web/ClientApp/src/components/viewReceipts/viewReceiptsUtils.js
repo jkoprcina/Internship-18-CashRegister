@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getTenReceipts = () =>
+export const getTenReceipts = whereToStartFrom =>
   axios
-    .get("api/receipts/get-ten")
+    .get("api/receipts/get-ten", { params: { whereToStartFrom } })
     .then(response => {
       return response.data;
     })

@@ -19,6 +19,6 @@ namespace StoreCashRegister.Domain.Interfaces
 
         Product GetProductById(int id);
 
-        List<Product> GetTenProducts(int whereToGetProductsFrom)
+        List<Product> GetTenProducts(int whereToGetProductsFrom);
     }
 }

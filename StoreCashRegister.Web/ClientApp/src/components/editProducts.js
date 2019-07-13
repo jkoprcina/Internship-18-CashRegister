@@ -74,15 +74,6 @@ class EditProducts extends React.Component {
   };
 
   render() {
-    let highTax = false;
-    let lowTax = false;
-    const { selectedProduct } = this.state;
-    if (selectedProduct !== undefined) {
-      if (selectedProduct.tax === 25) {
-        highTax = true;
-      }
-      lowTax = true;
-    }
     return this.state.productIsSelected ? (
       <div className="main">
         <div className="main__form">
@@ -117,9 +108,9 @@ class EditProducts extends React.Component {
           <br />
           <label className="main__form__label">Product Tax: </label>
           <br />
-          <input type="radio" name="colors" id="highTax" />
+          <input type="radio" name="tax" ref="highTax" />
           {TAX.HIGH_TAX}%
-          <input type="radio" name="colors" ref="lowTax" />
+          <input type="radio" name="tax" ref="lowTax" />
           {TAX.LOW_TAX}%
           <br />
           <button
