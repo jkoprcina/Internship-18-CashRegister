@@ -27,7 +27,16 @@ class EditProducts extends React.Component {
   componentDidMount() {
     this.getAndShowAllProducts();
   }
-
+  
+  componentDidUpdate = () => {
+      if (this.state.selectedProduct !== null) {
+        if (this.state.selectedProduct.tax === TAX.LOW_TAX) {
+          ReactDOM.findDOMNode(this.refs.lowTax).checked = true;
+        } else {
+          ReactDOM.findDOMNode(this.refs.highTax).checked = true;
+        }
+      }
+    };
   compEditProduct = id => {
     let price = ReactDOM.findDOMNode(this.refs.price).value;
     let barcode = ReactDOM.findDOMNode(this.refs.barcode).value;
