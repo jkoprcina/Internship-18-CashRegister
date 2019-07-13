@@ -20,9 +20,18 @@ namespace StoreCashRegister.Web.Controllers
         private readonly ICashierRepository _cashierRepository;
 
         [HttpGet("get-by-username")]
-        public IActionResult GetCashierByUsername(string username)
+        public IActionResult GetCashierByUsername(string username, string password)
         {
-            var cashier = _cashierRepository.GetCashierByUsername(username);
+            var cashier = _cashierRepository.GetCashierByUsername(username, password);
+            if (cashier != null)
+                return Ok(cashier);
+            return NotFound();
+        }
+
+        [HttpGet("get-by-id")]
+        public IActionResult GetCashierById(int id)
+        {
+            var cashier = _cashierRepository.GetCashierById(id);
             if (cashier != null)
                 return Ok(cashier);
             return NotFound();

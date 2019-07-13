@@ -94,5 +94,10 @@ namespace StoreCashRegister.Domain.Implementations
         {
             return _context.Products.Find(id);
         }
+
+        public List<Product> GetTenProducts(int whereToGetProductsFrom)
+        {
+            return _context.Products.OrderByDescending(receipt => receipt.Name).Skip(whereToGetProductsFrom).Take(10).ToList();
+        }
     }
 }

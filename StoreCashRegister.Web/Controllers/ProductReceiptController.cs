@@ -21,19 +21,20 @@ namespace StoreCashRegister.Web.Controllers
         private readonly IProductReceiptRepository _productReceiptRepository;
 
         [HttpPost("add")]
-        public IActionResult AddProductReceipt([FromBody] JObject data)
+        public IActionResult AddProductReceipt(ProductReceipt productReceiptToAdd)
         {
-            var productReceiptToAdd = new ProductReceipt();
-            productReceiptToAdd.ProductId = (int)data["productId"];
-            productReceiptToAdd.ReceiptId = (int)data["receiptId"];
-            productReceiptToAdd.Name = data["name"].ToString();
-            productReceiptToAdd.Amount = (int)data["amount"];
-            productReceiptToAdd.Tax = (int)data["tax"];
-            productReceiptToAdd.PriceAtTheTime = (double)data["price"];
-
-            var wasAddSuccessful = _productReceiptRepository.AddProductReceipt(productReceiptToAdd);
+            var wasAddSuccessful = _productReceiptRepository.AddProductReceipts(productReceiptToAdd);
             if (wasAddSuccessful)
                 return Ok();
+            return Forbid();
+        }
+
+        [HttpGet("get-by-receiptId")]
+        public IActionResult GetAllProductReceiptsWithReceiptId(int id)
+        {
+            var listOfProductReceipts = _productReceiptRepository.GetAllProductReceiptsWithReceiptId(id);
+            if (listOfProductReceipts != null)
+                return Ok(listOfProductReceipts);
             return Forbid();
         }
     }

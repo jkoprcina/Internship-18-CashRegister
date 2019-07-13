@@ -9,7 +9,7 @@ class Index extends React.Component {
   };
 
   componentDidMount = () => {
-    if (localStorage.getItem("cashRegisterId") !== undefined) {
+    if (localStorage.getItem("cashRegisterId") !== null) {
       this.setState({ loggedIn: true });
     }
   };

@@ -33,6 +33,7 @@ namespace StoreCashRegister.Web
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICashRegisterRepository, CashRegisterRepository>();
             services.AddScoped<ICashierRepository, CashierRepository>();
+            services.AddScoped<IProductReceiptRepository, ProductReceiptRespository>();
 
             services.AddDbContext<StoreCashRegisterContext>
             (options => options.UseSqlServer

@@ -14,6 +14,11 @@ class EditProducts extends React.Component {
   };
 
   getAndShowAllProducts = () => {
+    this.setState({
+      productIsSelected: false,
+      loading: true,
+      selectedProduct: null
+    });
     getAllProducts().then(response => {
       this.setState({ products: response, loading: false });
     });
@@ -47,8 +52,11 @@ class EditProducts extends React.Component {
       alert("Wrong info");
       return;
     }
-    editProduct(id, barcode, price, tax).then(() => {
-      this.getAndShowAllProducts();
+    editProduct(id, barcode, price, tax).then(response => {
+      if (response.status === 200) {
+        alert("Success");
+        this.getAndShowAllProducts();
+      }
     });
   };
 
@@ -65,16 +73,16 @@ class EditProducts extends React.Component {
     this.setState({ productIsSelected: true, selectedProduct: product });
   };
 
-  goBackToAllProducts = () => {
-    this.setState({
-      productIsSelected: false,
-      loading: true,
-      selectedProduct: null
-    });
-    this.getAndShowAllProducts();
-  };
-
   render() {
+    let highTax = false;
+    let lowTax = false;
+    const { selectedProduct } = this.state;
+    if (selectedProduct !== undefined) {
+      if (selectedProduct.tax === 25) {
+        highTax = true;
+      }
+      lowTax = true;
+    }
     return this.state.productIsSelected ? (
       <div className="main">
         <div className="main__form">
@@ -109,7 +117,7 @@ class EditProducts extends React.Component {
           <br />
           <label className="main__form__label">Product Tax: </label>
           <br />
-          <input type="radio" name="colors" ref="highTax" />
+          <input type="radio" name="colors" id="highTax" />
           {TAX.HIGH_TAX}%
           <input type="radio" name="colors" ref="lowTax" />
           {TAX.LOW_TAX}%
@@ -121,7 +129,7 @@ class EditProducts extends React.Component {
             Edit Item
           </button>
         </div>
-        <button className="main__button" onClick={this.goBackToAllProducts}>
+        <button className="main__button" onClick={this.getAndShowAllProducts}>
           Back
         </button>
       </div>

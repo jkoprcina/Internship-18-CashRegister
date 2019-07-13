@@ -17,25 +17,29 @@ export const addReceipt = (
       cashRegisterId,
       cashierId
     })
+    .then(response => {
+      return response.data;
+    })
     .catch(() => {
       alert("Something went wrong with receipt");
     });
 
 export const addProductReceipts = (productReceipts, receiptId) =>
-  productReceipts.map(productReceipt =>
+  productReceipts.map(productReceipt => {
     axios
       .post("api/product-receipts/add", {
-        productId: productReceipt.productId,
-        receiptId,
         name: productReceipt.name,
         amount: productReceipt.amount,
+        priceAtTheTime: productReceipt.price,
         tax: productReceipt.tax,
-        price: productReceipt.price
+        productId: productReceipt.productId,
+        receiptId
       })
       .catch(() => {
         alert("Something went wrong with productReceipts");
-      })
-  );
+        return false;
+      });
+  });
 
 export const removeAmount = (product, amount) =>
   axios.post("api/products/remove-amount", {

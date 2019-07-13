@@ -7,6 +7,8 @@ namespace StoreCashRegister.Domain.Interfaces
 {
     public interface IProductReceiptRepository
     {
-        bool AddProductReceipt(ProductReceipt productReceiptToAdd);
+        bool AddProductReceipts(ProductReceipt productReceiptToAdd);
+
+        List<ProductReceipt> GetAllProductReceiptsWithReceiptId(int id);
     }
 }

@@ -38,9 +38,9 @@ namespace StoreCashRegister.Web.Controllers
             receiptToAdd.ExciseTax = (double)data["fullLowerTaxPrice"];
             receiptToAdd.DirectTax = (double)data["fullHigherTaxPrice"];
 
-            var wasAddSuccessful = _receiptRepository.AddReceipt(receiptToAdd, (int)data["cashRegisterId"], (int)data["cashierId"]);
-            if (wasAddSuccessful)
-                return Ok();
+            var addedReceipt = _receiptRepository.AddReceipt(receiptToAdd, (int)data["cashRegisterId"], (int)data["cashierId"]);
+            if (addedReceipt != null)
+                return Ok(addedReceipt);
             return Forbid();
         }
 
@@ -51,6 +51,12 @@ namespace StoreCashRegister.Web.Controllers
             if (receipt != null)
                 return Ok(receipt);
             return NotFound();
+        }
+
+        [HttpGet("get-ten")]
+        public IActionResult GetTenReceipts(int whereToGetReceiptsFrom)
+        {
+            return Ok(_receiptRepository.GetTenReceipts(whereToGetReceiptsFrom));
         }
     }
 }

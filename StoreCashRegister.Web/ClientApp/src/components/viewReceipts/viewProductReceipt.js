@@ -1,12 +1,14 @@
 import React from "react";
+import { CURRENCY } from "../../utils/constants";
 
 export const ViewProductReceipt = props => {
   return (
     <div>
       <p>
-        Name:{this.props.productReceipt.name} Amount bought:
-        {this.props.productReceipt.amount}
-        Cost:{this.props.productReceipt.price}
+        {props.productReceipt.name} Amount bought:
+        {props.productReceipt.amount}
+        Cost:{props.productReceipt.priceAtTheTime}
+        {CURRENCY}
       </p>
     </div>
   );

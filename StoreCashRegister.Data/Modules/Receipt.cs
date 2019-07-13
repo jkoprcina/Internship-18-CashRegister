@@ -14,8 +14,9 @@ namespace StoreCashRegister.Data.Modules
         public double DirectTax { get; set; }
         public double FullPrice { get; set; }
         public CashRegister CashRegister { get; set; }
+        public int CashRegisterId { get; set; }
         public Cashier Cashier { get; set; }
-
+        public int CashierId { get; set; }
         public ICollection<ProductReceipt> ProductReceipts { get; set; }
     }
 }

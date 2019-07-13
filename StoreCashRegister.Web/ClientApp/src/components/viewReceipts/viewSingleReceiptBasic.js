@@ -1,10 +1,16 @@
 import React from "react";
+import "./viewReceipts.css";
 
 export const ViewSingleReceiptBasic = props => {
   return (
     <div>
-      {this.props.receipt.name} {this.props.receipt.fullPrice}
-      <button onClick={() => this.handleSelect()}>View details</button>
+      <span>Number: {props.receipt.serialNumber}</span>{" "}
+      <button
+        className="view-button"
+        onClick={() => props.handleSelect(props.receipt)}
+      >
+        View details
+      </button>
     </div>
   );
 };

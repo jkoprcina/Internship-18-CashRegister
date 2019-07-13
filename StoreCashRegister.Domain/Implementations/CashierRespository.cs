@@ -16,13 +16,20 @@ namespace StoreCashRegister.Domain.Implementations
         }
         private readonly StoreCashRegisterContext _context;
 
-        public Cashier GetCashierByUsername(string username)
+        public Cashier GetCashierByUsername(string username, string password)
         {
             var cashier = _context.Cashiers.FirstOrDefault(cas => cas.Username == username);
 
             if (cashier == null)
                 return null;
+            if (cashier.Password != password)
+                return null;
             return cashier;
+        }
+
+        public Cashier GetCashierById(int id)
+        {
+            return _context.Cashiers.Find(id);
         }
     }
 }

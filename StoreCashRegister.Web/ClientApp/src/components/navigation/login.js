@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./navigation.css";
-import { getInfoAndSetLocalStorage } from "./utils";
+import {
+  validateAndGetCashRegister,
+  validateAndGetCashier
+} from "./navigationUtils";
 
 class Login extends React.Component {
   login = () => {
@@ -16,12 +19,17 @@ class Login extends React.Component {
       alert("You need to fill all the inputs");
       return;
     }
-    getInfoAndSetLocalStorage(
-      cashRegisterId,
-      cashierUsername,
-      cashierPassword
-    ).then(() => {
-      this.props.handleLogin();
+    validateAndGetCashRegister(cashRegisterId).then(cashRegister => {
+      validateAndGetCashier(cashierUsername, cashierPassword).then(cashier => {
+        if (cashRegister !== undefined && cashier !== undefined) {
+          localStorage.setItem("cashRegisterId", cashRegister.id);
+          localStorage.setItem("cashierId", cashier.id);
+          localStorage.setItem("firstName", cashier.firstName);
+          localStorage.setItem("lastName", cashier.lastName);
+          alert("Welcome!");
+          this.props.handleLogin();
+        }
+      });
     });
   };
 

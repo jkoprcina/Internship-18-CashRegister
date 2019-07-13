@@ -5,14 +5,17 @@ import { addReceipt, addProductReceipts } from "./newReceiptUtils";
 import "./newReceipt.css";
 
 class Receipt extends React.Component {
-  state = {
-    cashRegisterId: "",
-    cashier: { firstName: "", lastName: "", id: "" },
-    fullPriceNoTax: 0,
-    fullPriceWithTax: 0,
-    fullLowerTaxPrice: 0,
-    fullHigherTaxPrice: 0
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      cashRegisterId: "",
+      cashier: { firstName: "", lastName: "", id: "" },
+      fullPriceNoTax: 0,
+      fullPriceWithTax: 0,
+      fullLowerTaxPrice: 0,
+      fullHigherTaxPrice: 0
+    };
+  }
 
   componentDidMount() {
     this.setState({
@@ -24,11 +27,12 @@ class Receipt extends React.Component {
       }
     });
   }
-  componentWillReceiveProps() {
+
+  componentWillReceiveProps = () => {
     this.countPrices();
-  }
+  };
+
   countPrices = () => {
-    console.log(this.props.productReceipts);
     let fullPriceNoTax = math.fullPriceNoTaxCalculator(
       this.props.productReceipts
     );
@@ -48,19 +52,27 @@ class Receipt extends React.Component {
       fullHigherTaxPrice
     });
   };
-  handleBuy = () => {
-    addReceipt(
-      this.state.fullPriceNoTax,
-      this.state.fullPriceWithTax,
-      this.state.fullLowerTaxPrice,
-      this.state.fullHigherTaxPrice,
-      this.state.cashRegisterId,
-      this.state.cashier.id
-    ).then(response => {
-      if (response !== undefined) {
-        addProductReceipts(this.props.productReceipts, response.id);
-      }
-    });
+
+  handleBuy = productReceipts => {
+    if (productReceipts.length > 0) {
+      addReceipt(
+        this.state.fullPriceNoTax,
+        this.state.fullPriceWithTax,
+        this.state.fullLowerTaxPrice,
+        this.state.fullHigherTaxPrice,
+        this.state.cashRegisterId,
+        this.state.cashier.id
+      ).then(receipt => {
+        addProductReceipts(productReceipts, receipt.id);
+        this.setState({
+          fullPriceNoTax: 0,
+          fullPriceWithTax: 0,
+          fullLowerTaxPrice: 0,
+          fullHigherTaxPrice: 0
+        });
+      });
+      this.props.itemsBought();
+    }
   };
 
   render() {
@@ -87,7 +99,9 @@ class Receipt extends React.Component {
         <p>Price of lower tax amount: {this.state.fullLowerTaxPrice}</p>
         <p>Price of higher tax amount: {this.state.fullHigherTaxPrice}</p>
         <p>Full price: {this.state.fullPriceWithTax}</p>
-        <button onClick={this.handleBuy}>BUY</button>
+        <button onClick={() => this.handleBuy(this.props.productReceipts)}>
+          BUY
+        </button>
       </div>
     );
   }

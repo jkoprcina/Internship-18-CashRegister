@@ -47,6 +47,10 @@ namespace StoreCashRegister.Web.Controllers
         [HttpPost("add-amount")]
         public IActionResult AddProductAmount([FromBody]JObject data)
         {
+            bool isInt = int.TryParse(data["amountToAdd"].ToString(), out int amountToAdd);
+            if (!isInt)
+                return Forbid();
+
             var wasAddingSuccessful = _productRepository.AddProductAmount((int)data["id"], (int)data["amountToAdd"]);
             if (wasAddingSuccessful)
                 return Ok();
@@ -56,7 +60,11 @@ namespace StoreCashRegister.Web.Controllers
         [HttpPost("remove-amount")]
         public IActionResult RemoveProductAmount([FromBody]JObject data)
         {
-            var wasRemovingSuccessful = _productRepository.RemoveProductAmount((int)data["id"], (int)data["amountToRemove"]);
+            bool isInt = int.TryParse(data["amountToRemove"].ToString(), out int amountToRemove);
+            if (!isInt)
+                return Forbid();
+
+            var wasRemovingSuccessful = _productRepository.RemoveProductAmount((int)data["id"], amountToRemove);
             if (wasRemovingSuccessful)
                 return Ok();
             return Forbid();
@@ -69,6 +77,12 @@ namespace StoreCashRegister.Web.Controllers
             if (product != null)
                 return Ok(product);
             return NotFound();
+        }
+
+        [HttpGet("get-ten")]
+        public IActionResult GetTenProducts(int whereToGetProductsFrom)
+        {
+            return Ok(_productRepository.GetTenProducts(whereToGetProductsFrom));
         }
     }
 }

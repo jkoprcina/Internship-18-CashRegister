@@ -18,5 +18,7 @@ namespace StoreCashRegister.Domain.Interfaces
         bool RemoveProductAmount(int id, int amountToRemove);
 
         Product GetProductById(int id);
+
+        List<Product> GetTenProducts(int whereToGetProductsFrom)
     }
 }

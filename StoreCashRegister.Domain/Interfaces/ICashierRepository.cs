@@ -7,6 +7,8 @@ namespace StoreCashRegister.Domain.Interfaces
 {
     public interface ICashierRepository
     {
-        Cashier GetCashierByUsername(string username);
+        Cashier GetCashierByUsername(string username, string password);
+
+        Cashier GetCashierById(int id);
     }
 }
